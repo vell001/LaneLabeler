@@ -9,8 +9,8 @@ const clear = document.getElementById('clear')
 
 const context = canvas.getContext('2d')
 let lineSize = 1
-let lineColor = '#FFFFFF'
-let eraserSize = 20
+let lineColor = '#F00'
+let eraserSize = 50
 let eraserEnabled = false
 
 // autoSetCanvasSize(canvas)
@@ -19,7 +19,7 @@ listenToUser(canvas)
 var images=[];
 var curImageIdx=0;
 
-function nextImage(idx) {
+function chooseImage(idx) {
     if (idx > images.length) {
         alert("没有更多图片了,请重新选择文件夹");
     }
@@ -47,7 +47,7 @@ function fileChange(that) {
             images.push(files[i]);
         }
     }
-    nextImage(0);
+    chooseImage(0);
 }
 
 
@@ -95,15 +95,17 @@ clear.onclick = function () {
     context.clearRect(0, 0, canvas.width, canvas.height)
 }
 
-// 保存画布
-download.onclick = function () {
+function saveAndNext() {
     const a = document.createElement('a')
     a.href = canvas.toDataURL('image/png')
     a.download = images[curImageIdx].name +"_label.png";
     a.target = '_blank'
     a.click()
-    nextImage(curImageIdx+1);
+    chooseImage(curImageIdx+1);
 }
+
+// 保存画布
+download.onclick = saveAndNext;
 
 function listenToUser(canvas) {
     let using = false
@@ -199,10 +201,11 @@ function drawLine(lastPoint, newPoint, width) {
     context.closePath()
 }
 
-document.onkeydown=function(event){ 
+window.addEventListener("keydown", function(e) {
+    e.preventDefault();
     var e = event || window.event || arguments.callee.caller.arguments[0]; 
 
-    var colorTarget;
+    var colorTarget = null;
     if(e && e.keyCode==81){ // 按 Esc 
         // alert("label 0"); 
         colorTarget = document.getElementById("red");
@@ -215,9 +218,15 @@ document.onkeydown=function(event){
         // alert("label 2"); 
         colorTarget = document.getElementById("blue");
     }
-    if (e.keyCode == 82) {  
+    if (e && e.keyCode == 82) {  
         // alert("label 3");  
         colorTarget = document.getElementById("dark");
     }
-    changeColor(colorTarget);
- };
+    if (colorTarget!=null) {
+        changeColor(colorTarget);
+    }
+
+    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        saveAndNext();
+    }
+}, false);
