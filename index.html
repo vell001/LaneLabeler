@@ -21,13 +21,17 @@
         <svg class="icon" id="eraser">
             <use xlink:href="#icon-eraser-ps"></use>
         </svg>
-            <input type="file" webkitdirectory directory onchange="fileChange(this);" />
         <ul class="colors" id="colors">
             <li id="red" class="active"></li>
             <li id="green"></li>
             <li id="blue"></li>
             <li id="dark"></li>
         </ul>
+        <input type="file" webkitdirectory directory onchange="fileChange(this);" />
+        <a id="forward" href="javascript:chooseImage(curImageIdx-1);">前一张</a>
+        <span id="fileName"> </span>
+        <a id="next" href="javascript:chooseImage(curImageIdx+1);">后一张</a>
+        
         <div class="tools">
             <svg class="icon" id="download">
                 <use xlink:href="#icon-download"></use>

@@ -20,8 +20,9 @@ var images=[];
 var curImageIdx=0;
 
 function chooseImage(idx) {
-    if (idx > images.length) {
+    if (idx <0 || idx > images.length) {
         alert("没有更多图片了,请重新选择文件夹");
+        return;
     }
     curImageIdx = idx;
     var reader = new FileReader();
@@ -35,6 +36,7 @@ function chooseImage(idx) {
         imageView.src = e.target.result;
     }
     reader.readAsDataURL(images[curImageIdx]);
+    document.getElementById("fileName").innerHTML = images[curImageIdx].name;
 }
 
 function fileChange(that) {
