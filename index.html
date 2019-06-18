@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas画板</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <script src="./scripts/font_923908_fay3kpb1h99.js"></script>
+</head>
+<body>
+    <img id="image"/>
+    <canvas id="canvas"></canvas>
+    <div class="actions">
+        <svg class="icon active" id="pen">
+            <use xlink:href="#icon-MarkPen"></use>
+        </svg>
+        <svg class="icon" id="pencil">
+                <use xlink:href="#icon-Pencil-"></use>
+            </svg>
+        <svg class="icon" id="eraser">
+            <use xlink:href="#icon-eraser-ps"></use>
+        </svg>
+            <input type="file" webkitdirectory directory onchange="fileChange(this);" />
+        <ul class="colors" id="colors">
+            <li id="red" class="active"></li>
+            <li id="green"></li>
+            <li id="blue"></li>
+            <li id="dark"></li>
+        </ul>
+        <div class="tools">
+            <svg class="icon" id="download">
+                <use xlink:href="#icon-download"></use>
+            </svg>
+            <svg class="icon" id="clear">
+                <use xlink:href="#icon-shanchu"></use>
+            </svg>
+        </div>
+    </div>
+    
+    <script src="./scripts/main.js"></script>
+</body>
+</html>

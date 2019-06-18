@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>page test</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .file {
+        vertical-align: top;
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+
+    #dllList {
+        margin: auto;
+        display: inline-block;
+        border-collapse: collapse;
+    }
+
+    #dllList th,
+    td {
+        width: 200px;
+        border: 1px solid #98bf21;
+        font-size: 1em;
+        text-align: right;
+        padding: 3px 7px 2px 7px;
+    }
+
+    #dllList th {
+        font-size: 1.1em;
+        text-align: left;
+        padding-top: 5px;
+        padding-bottom: 4px;
+        background-color: #A7C942;
+        color: #ffffff;
+    }
+
+    #dllList tr:nth-child(even) {
+        color: #000000;
+        background-color: #EAF2D3;
+    }
+    </style>
+    <script type="text/javascript">
+    function fileChange(that) {
+        var files = that.files;
+        var filesJson = '[';
+        for (var i = 0; i < files.length; i++) {
+            let name = files[i].name;
+            console.log(that.files);
+            let size = Math.round(files[i].size / 1024) + "K";
+            if (/\.jpg$/ig.test(name)) {//这里按业务要求筛选所有dll文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+                var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("img").src = e.target.result;
+            }
+            reader.readAsDataURL(files[i]);
+            }
+            
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        createTable(filesJson);
+    }
+
+    function createTable(jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        var tableObject = document.getElementById('dllList');
+        for (var i in obj) {
+            let TableRow = tableObject.insertRow();
+            let fileName = TableRow.insertCell(0);
+            fileName.innerHTML = obj[i].name;
+            let fileSize = TableRow.insertCell(1);
+            fileSize.innerHTML = obj[i].size;
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <table id="dllList">
+        <thead>
+            <tr>
+                <th>文件名</th>
+                <th>大小(误差±1K)</th>
+            </tr>
+        </thead>
+    </table>
+    <img id="img"/>
+    <a href="javascript:;" class="file">选择文件
+    <input type="file" webkitdirectory directory onchange="fileChange(this);" />
+    </a>
+</body>
+
+</html>
